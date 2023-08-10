@@ -5,7 +5,7 @@ const Users = ({ socket }) => {
 
   useEffect(() => {
     socket.on('room_users', (data) => {
-      const sortedData = data.sort((a, b) => parseFloat(b.time) - parseFloat(a.time));
+      const sortedData = data.sort((a, b) => parseFloat(b.rank) - parseFloat(a.rank));
       setUsers(sortedData);
     });
 
@@ -14,28 +14,23 @@ const Users = ({ socket }) => {
 
   return (
     <div className="users">
-      <table>
+      <table border="0">
         <thead>
           <tr>
             <td className="users-no">RANK</td>
             <td className="users-username">NAME</td>
-            <td className="users-distance">DISTANCE</td>
-            <td className="users-time">TIME</td>
-            <td className="users-time">POINTS</td>
+            <td className="users-status">STATUS</td>
+            <td className="users-time">LOCATION</td>
           </tr>
         </thead>
         <tbody>
           { users.map((user, index) => {
-
-            const sec = user.time / 1000;
-            var minutes = Math.floor((sec)/60);
             
             return <tr key={user.id}>
-              <td className="users-no">{index + 1}</td>
-              <td className="users-username">{user.username} <span className={user.status}>{user.status}</span></td>
-              <td className="users-distance">{user.distance / 4} km</td>
-              <td className="users-time">{minutes}:{Math.floor(sec)}</td>
-              <td className="users-time">{user.time}</td>
+              <td className="users-no">{user.status == 'finished' ? user.rank : '-'}</td>
+              <td className="users-username">{user.username}</td>
+              <td className={user.status}>{user.status}</td>
+              <td className="users-time">{user.position.x}:{user.position.y}</td>
             </tr>}
           ) }
         </tbody>

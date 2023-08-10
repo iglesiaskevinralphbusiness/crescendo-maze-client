@@ -8,15 +8,15 @@ const Admin = ({ room, socket }) => {
 
   const enterAdmin = () => {
     if(password === adminPassword){
-      socket.emit('join_room', { username: 'Admin', room, role: 'admin' });
+      socket.emit('join_room', { username: 'Admin', role: 'admin' });
       setIsAdmin(true);
     } else {
       console.log('Wrong admin password!');
     }
   }
-  
-  const start = (track) => {
-    socket.emit('game_start', { room, track });
+
+  const start = () => {
+    socket.emit('game_start');
   };
   
   if(!isAdmin){
@@ -30,12 +30,8 @@ const Admin = ({ room, socket }) => {
 
   return (
     <div className="admin">
-      <button onClick={()=> start('final')}>Start Game</button>
-      <button onClick={()=> start('trial')}>Start Trial</button>
-      <div className='players'>
-        <h2>Players</h2>
-        <Users socket={socket} />
-      </div>
+      <button onClick={() => start()}>start</button>
+      <Users socket={socket} />
     </div>
   )
 };

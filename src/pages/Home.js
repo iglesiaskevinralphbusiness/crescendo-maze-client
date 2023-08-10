@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { characters } from '../helpers/constants';
 
-const Home = ({ username, setUsername, room, socket }) => {
+const Home = ({ username, setUsername, selectedChar, setSelectedChar, socket }) => {
   const navigate = useNavigate();
   
   const joinRoom = () => {
     if (username !== '') {
-      socket.emit('join_room', { username, room, role: 'player' });
+      socket.emit('join_room', { username, selectedChar, role: 'player' });
       navigate('/game', { replace: true });
     } else {
       console.log('Please enter username')
@@ -14,8 +15,33 @@ const Home = ({ username, setUsername, room, socket }) => {
   
   return (
     <div className="home">
-      <input onChange={(e) => setUsername(e.target.value)} placeholder='Enter name...' />
-      <button onClick={()=> joinRoom()}>Join Race</button>
+      <p>
+        <span>ENTER YOUR NAME: </span><br />
+        <input onChange={(e) => setUsername(e.target.value)} placeholder='Enter name...' />
+      </p>
+      <div className="char-selection-blk">
+        <div>
+          <p>SELECT YOUR CHARACTER:</p>
+          <ul className='charSelectionList'>
+            {
+              characters.map(char => {
+                return <li
+                  key={char.name}
+                  onClick={
+                    () => setSelectedChar(char.name)} className={`home-selected-char ${selectedChar === char.name ? 'active' : ''}`
+                  }>
+                    <div className={`charSelectionImg ${char.name} ${selectedChar === char.name ? 'active' : ''}`}>
+                      <img src='assets/characters.png' />
+                    </div>
+                </li>
+              })
+            }
+          </ul>
+        </div>
+      </div>
+      <div className="char-button-blk">
+        <button onClick={()=> joinRoom()}>Join Game</button>
+      </div>
     </div>
   );
 };

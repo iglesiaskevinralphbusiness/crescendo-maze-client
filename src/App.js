@@ -6,11 +6,11 @@ import Home from './pages/Home';
 import Game from './pages/Game';
 import Admin from './pages/Admin';
 
-const socket = io.connect('https://crescendo-maze-socket.onrender.com/');
+const socket = io.connect('https://crescendo-maze-socket.onrender.com');
 
 function App() {
   const [username, setUsername] = useState('');
-  const room = 'crescendoRace';
+  const [selectedChar, setSelectedChar] = useState('adventurer01');
 
   return (
     <Router>
@@ -20,7 +20,8 @@ function App() {
               <Home
                 username={username}
                 setUsername={setUsername}
-                room={room}
+                selectedChar={selectedChar}
+                setSelectedChar={setSelectedChar}
                 socket={socket}
               />
             }
@@ -28,13 +29,14 @@ function App() {
           <Route path='/game' element={
               <Game
                 username={username}
-                room={room}
+                selectedChar={selectedChar}
                 socket={socket}
+                role="player"
               />
             }
           />
           <Route path='/admin' element={
-              <Admin room={room} socket={socket} />
+              <Admin socket={socket} />
             }
           />
         </Routes>
