@@ -196,14 +196,8 @@ function GameComponent({ username, selectedChar, socket, role }) {
       yoyo: true,
     });
   }
-
-  const start = () => {
-    socket.emit('game_start');
-  };
-
   
   return <div>
-    <button onClick={() => start()}>start</button>
     { isStartedState ? null : <Users socket={socket} /> }
     <div id="game-content" className={isStartedState ? 'started' : '' } />
   </div>;
