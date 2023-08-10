@@ -42,6 +42,7 @@ const Home = ({ username, setUsername, selectedChar, setSelectedChar, socket }) 
       <div className="char-button-blk">
         <button onClick={()=> joinRoom()}>Join Game</button>
       </div>
+      <button className="admin-button-blk" onClick={()=> navigate('/admin')}>Admin</button>
     </div>
   );
 };
